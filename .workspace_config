@@ -1,0 +1,3 @@
+project moonshine
+path_to_frontend frontend
+node 22

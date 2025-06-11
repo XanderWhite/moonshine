@@ -1,0 +1,37 @@
+@use "style" as *;
+
+$block-name: "b-header";
+
+.#{$block-name} {
+	padding-top: clamp(1.25rem, 0.971rem + 1.27vw, 2.5rem);
+	padding-bottom: clamp(1.25rem, 0.971rem + 1.27vw, 2.5rem);
+	border-bottom: 1px solid rgb(108  110 123);
+
+	&__logo {
+		display: flex;
+		align-items: center;
+		gap: 24px;
+		max-width: 400px;
+	}
+
+	&__svg {
+		width: 93px;
+		height: 66px;
+		transition: 0.3s;
+	}
+
+	&__logo:hover &__svg,
+	&__logo:focus &__svg {
+		animation: zoom 0.3s infinite alternate linear;
+	}
+
+	&__text {
+		font-family: Segoe-UI-Regular;
+		color: #2c145e;
+		font-size: clamp(1.25rem, 1.139rem + 0.51vw, 1.75rem);
+		font-weight: 400;
+		line-height: 132%;
+		letter-spacing: 0.125em;
+		text-transform: uppercase;
+	}
+}

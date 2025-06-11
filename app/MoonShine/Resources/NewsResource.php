@@ -74,8 +74,7 @@ class NewsResource extends ModelResource
 				->format('d.m.Y')
 				->required(),
 
-			Textarea::make('Анонс', 'announce')
-				->required(),
+			Textarea::make('Анонс', 'announce'),
 
 			Textarea::make('Содержание', 'content')
 				->required(),
@@ -85,7 +84,6 @@ class NewsResource extends ModelResource
 				->disk('public')
 				->allowedExtensions(['jpg', 'png', 'jpeg', 'webp'])
 				->removable()
-				->required()
 		];
 	}
 
@@ -120,11 +118,31 @@ class NewsResource extends ModelResource
 			'announce' => 'required|string',
 			'content' => 'required|string',
 			'image' => [
-				$item->exists ? 'sometimes' : 'required',
+				($item->exists && !request()->hasFile('image') && !$this->isImageRemoved())
+					? 'nullable'
+					: 'required',
 				'image',
 				'mimes:jpg,jpeg,png,webp',
 				'max:2048'
 			]
+		];
+	}
+
+	protected function isImageRemoved(): bool
+	{
+		$hiddenImage = request()->input('hidden_image');
+		$imageRemoved = empty($hiddenImage) && !request()->hasFile('image');
+
+		return $imageRemoved;
+	}
+
+	public function validationMessages(): array
+	{
+		return [
+			'image.required' => 'Пожалуйста, выберите изображение для новости',
+			'image.image' => 'Загружаемый файл должен быть изображением',
+			'image.mimes' => 'Допустимые форматы изображений: jpg, jpeg, png, webp',
+			'image.max' => 'Максимальный размер изображения — 2 МБ',
 		];
 	}
 }

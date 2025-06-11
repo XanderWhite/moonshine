@@ -123,4 +123,14 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'providers' => [
+        // ... существующие провайдеры
+
+        App\Providers\FrontendServiceProvider::class,
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
+    ],
+    'aliases' => [
+    // ...
+    'File' => Illuminate\Support\Facades\File::class,
+],
 ];
