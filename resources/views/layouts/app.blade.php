@@ -12,11 +12,11 @@
 <body>
     <div class="page">
         <h1 class="visually-hidden">Галактический вестник</h1>
-     	{!!
+     	{{-- {!!
 			\TAO::frontend()->renderBlock('common/header', [
 				'text' => 'some text'
 			])
-			!!}
+			!!} --}}
         <main class="main">
             @yield('content')
         </main>
