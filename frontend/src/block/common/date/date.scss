@@ -1,0 +1,13 @@
+@use "style" as *;
+
+$block-name: "b-date";
+
+.#{$block-name} {
+	align-self: flex-start;
+	padding: 6px 18px;
+	border-radius: 20px;
+	background-color: rgb(236 242 245);
+	color: rgb(108 110 123);
+	font-size: 16px;
+	line-height: 22px;
+}

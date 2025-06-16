@@ -1,0 +1,10 @@
+@use "style" as *;
+
+$block-name: "b-title";
+
+.#{$block-name} {
+	font-family: OpenSans-SemiBold;
+	font-size: clamp(3.125rem, 2.93rem + 0.89vw, 4rem);
+	line-height: 140%;
+	font-weight: 600;
+}

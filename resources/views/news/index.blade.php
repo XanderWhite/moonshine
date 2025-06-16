@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@if($lastNews)
+<!-- @if($lastNews)
 <div class="last-news" style="background: url('/storage/{!! $lastNews->image !!}') no-repeat center / cover;">
     <div class="last-news__inner container">
         <a class="last-news__title-link" href="/news/{!! $lastNews->id !!}">
@@ -34,10 +34,37 @@
             </a>
         </article>
         @endforeach
-    </div>
+    </div> -->
+
+<?
+echo app('tao.frontend')->templates()->renderBlock(
+    'news/news-lastnews',
+    ['lastNews' => $lastNews]
+); ?>
+
+<section class="news-section container">
+    <?
+    echo app('tao.frontend')->templates()->renderBlock(
+        'common/title',
+        [
+            'title' => 'Новости',
+        ]
+    );
+
+    echo app('tao.frontend')->templates()->renderBlock(
+        'news/news-list',
+        [
+            'newsList' => $news,
+        ]
+    );
+    ?>
 
     <div class="pagination">
         {!! $news->links('pagination.arrows') !!}
     </div>
+
+
 </section>
+
+
 @endsection

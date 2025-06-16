@@ -1,0 +1,11 @@
+@use "style" as *;
+
+$block-name: "b-news-list";
+
+.#{$block-name} {
+	margin-top: clamp(2.188rem, 1.839rem + 1.59vw, 3.75rem);
+	margin-bottom: clamp(2.813rem, 2.283rem + 2.42vw, 5.188rem);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 82px 40px;
+}

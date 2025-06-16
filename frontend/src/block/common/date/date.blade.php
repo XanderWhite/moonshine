@@ -1,0 +1,1 @@
+<span class="{{ $block->mod($mods ?? []) }}">{!! $date !!}</span>

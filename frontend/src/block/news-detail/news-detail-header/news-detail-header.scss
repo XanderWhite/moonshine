@@ -1,0 +1,14 @@
+@use "style" as *;
+
+$block-name: "b-news-detail-header";
+
+.#{$block-name} {
+	&__title {
+		font-size: clamp(2.5rem, 2.166rem + 1.53vw, 4rem);
+		line-height: 1.4em;
+	}
+
+	&__subtitle {
+		font-size: 32px;
+	}
+}

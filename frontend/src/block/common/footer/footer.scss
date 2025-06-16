@@ -1,0 +1,14 @@
+@use "style" as *;
+
+$block-name: "b-footer";
+
+.#{$block-name} {
+	padding-top: clamp(1.25rem, 0.637rem + 2.8vw, 4rem);
+	padding-bottom: clamp(1.25rem, 0.358rem + 4.08vw, 5.25rem);
+	border-top: 1px solid rgb(108  110  123);
+
+	&__text {
+		font-size: 20px;
+		line-height: 160%;
+	}
+}

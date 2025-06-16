@@ -1,0 +1,45 @@
+@use "style" as *;
+
+$block-name: "b-news-lastnews";
+
+.#{$block-name} {
+	&__news {
+		margin-top: -1px;
+		min-height: clamp(25rem, 21.572rem + 15.67vw, 40.375rem);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		color: #fff;
+
+		&-inner {
+			display: flex;
+			flex-direction: column;
+			gap: 30px;
+			padding-top: 50px;
+			padding-bottom: 50px;
+		}
+	}
+
+	&__title {
+		font-size: clamp(2.5rem, 2.166rem + 1.53vw, 4rem);
+		line-height: 1.4em;
+
+		&:hover,
+		&:focus {
+			scale: 1.03;
+		}
+	}
+
+	&__text {
+		font-size: clamp(1.375rem, 1.236rem + 0.64vw, 2rem);
+		line-height: 1.6em;
+	}
+
+	& .swiper {
+		overflow: hidden;
+	}
+
+	&.swiper-slide {
+		display: flex;
+	}
+}
