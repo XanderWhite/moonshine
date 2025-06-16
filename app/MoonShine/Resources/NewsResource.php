@@ -18,6 +18,8 @@ use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\Textarea;
 use MoonShine\Decorations\Block;
+use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
+use MoonShine\UI\Fields\Preview;
 
 /**
  * @extends ModelResource<News>
@@ -54,6 +56,11 @@ class NewsResource extends ModelResource
 			Text::make(__('Название'), 'title')->sortable(),
 			Date::make(__('Дата'), 'date')->format('d.m.Y')->sortable(),
 			Image::make(__('Картинка'), 'image'),
+			Preview::make(
+				'Теги',
+				'tags',
+				fn($item) => $item->tags->pluck('name')->join(', ')
+			)
 		];
 	}
 
@@ -83,7 +90,12 @@ class NewsResource extends ModelResource
 				->dir('news')
 				->disk('public')
 				->allowedExtensions(['jpg', 'png', 'jpeg', 'webp'])
-				->removable()
+				->removable(),
+
+			BelongsToMany::make('Теги', 'tags', resource: TagResource::class)
+				->placeholder('выберите тег')
+				->selectMode()
+				->inLine()
 		];
 	}
 
@@ -100,7 +112,12 @@ class NewsResource extends ModelResource
 				->disk('public'),
 			Date::make('Дата', 'date')->format('d.m.Y'),
 			Textarea::make('Анонс', 'announce'),
-			Textarea::make('Содержание', 'content')
+			Textarea::make('Содержание', 'content'),
+			Preview::make(
+				'Теги',
+				'tags',
+				fn($item) => $item->tags->pluck('name')->join(', ')
+			)
 		];
 	}
 

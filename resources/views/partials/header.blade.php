@@ -1,8 +1,8 @@
 <?
-echo \TAO::frontend()->renderBlock(
-			'common/header',
-			[
-				'text' => 'some text'
-			]
-		);
+// echo \TAO::frontend()->renderBlock(
+// 			'common/header',
+// 			[
+// 				'text' => 'some text'
+// 			]
+// 		);
         ?>

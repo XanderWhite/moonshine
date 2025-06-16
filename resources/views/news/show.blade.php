@@ -23,6 +23,17 @@
                     назад к новостям
                 </span>
             </a>
+
+            @if($news->tags->isNotEmpty())
+            <div class="themes">
+                <b class="themes-title">Темы:</b>
+                @foreach($news->tags as $tag)
+                <a href="{{ route('news.tag', ['url' => $tag->slug]) }}" class="themes-link">
+                    {{ $tag->name }}</a>
+                @if(!$loop->last), @endif
+                @endforeach
+            </div>
+            @endif
         </div>
 
         <div class="news-detail-section__content__block">

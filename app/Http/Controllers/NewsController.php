@@ -3,27 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class NewsController
 {
-    public function index(Request $request, $page = null)
+    public function index(Request $request, $url = null)
     {
-        $currentPage = $page ?? $request->get('page', 1);
-        $perPage = 4;
+        $perPage = 2;
 
-         $news = News::OrderedNews()
-            ->paginate($perPage, ['*'], 'page', $currentPage);
+        $query = News::with('tags')->orderedNews();
+
+        if ($url) {
+            $tag = Tag::where('slug', $url)->firstOrFail();
+            $query->whereHas('tags', function ($q) use ($tag) {
+                $q->where('tags.id', $tag->id);
+            });
+        }
+        $lastNews = $query->first();
+        $news = $query->paginate($perPage);
 
         return view('news.index', [
             'news' => $news,
-            'lastNews' =>News::OrderedNews()->first()
+            'lastNews' => $lastNews,
+            'currentTag' => $url ? $tag : null
         ]);
     }
 
     public function show($id)
     {
-        $news = News::findOrFail($id);
+        $news = News::with('tags')->findOrFail($id);
         return view('news.show', ['news' => $news]);
     }
 }

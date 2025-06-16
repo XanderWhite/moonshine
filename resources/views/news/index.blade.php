@@ -13,7 +13,12 @@
 @endif
 
 <section class="news-section container">
-    <h2 class="news-section__title">Новости</h2>
+    <h2 class="news-section__title">Новости
+        @if($currentTag)
+        <span> по теме: {{ $currentTag->name }}</span>
+        @endif
+    </h2>
+
     <div class="news-list">
         @foreach ($news as $item)
         <article class="news-item">
@@ -32,7 +37,7 @@
     </div>
 
     <div class="pagination">
-        {!! $news->links('pagination.arrows')  !!}
+        {!! $news->links('pagination.arrows') !!}
     </div>
 </section>
 @endsection
