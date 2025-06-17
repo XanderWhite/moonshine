@@ -7,6 +7,13 @@ $block-name: "b-header";
 	padding-bottom: clamp(1.25rem, 0.971rem + 1.27vw, 2.5rem);
 	border-bottom: 1px solid rgb(108  110 123);
 
+	&__inner {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+		flex-wrap: wrap;
+	}
+
 	&__logo {
 		display: flex;
 		align-items: center;
@@ -33,5 +40,15 @@ $block-name: "b-header";
 		line-height: 132%;
 		letter-spacing: 0.125em;
 		text-transform: uppercase;
+	}
+
+	&__link {
+		font-size: 24px;
+		transition: 0.3s;
+
+		&:hover {
+			color: $color-accent;
+			rotate: -5deg;
+		}
 	}
 }
