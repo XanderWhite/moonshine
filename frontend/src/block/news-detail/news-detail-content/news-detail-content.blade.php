@@ -6,7 +6,7 @@
             {!! $title !!}
         </div>
         <div class="{{ $block->elem('text') }}">{!! $text !!}</div>
-        {!! $renderer->renderBlock('common/button', ['url'=>'/news', 'text' => 'назад к новостям', 'mods' => ['reverse'], 'modsSvg' => ['reverse','left'] ]) !!}
+        {!! $renderer->renderBlock('common/button', ['url'=>'/', 'text' => 'назад к новостям', 'mods' => ['reverse'], 'modsSvg' => ['reverse','left'] ]) !!}
 
         @if (!empty($themes))
         <div class="{{ $block->elem('themes') }}">
@@ -15,7 +15,7 @@
             $thms = [];
 
             foreach ($themes as $theme) {
-            $thms[] = '<a href="' . $theme['URL'] . '" class="' . $block->elem('themes-link') . '">' . $theme['NAME'] . '</a>';
+            $thms[] = '<a href="'.route('news.tag', ['url' => $theme->slug]).'" class="'.$block->elem('themes-link').'">'.$theme->name.'</a>';
             }
 
             echo implode(', ', $thms);

@@ -11,6 +11,7 @@ class NewsController
     public function index(Request $request, $url = null)
     {
         $perPage = 2;
+        $lastNewsCount = 3;
 
         $query = News::with('tags')->orderedNews();
 
@@ -20,7 +21,7 @@ class NewsController
                 $q->where('tags.id', $tag->id);
             });
         }
-        $lastNews = $query->first();
+        $lastNews = $query->take($lastNewsCount)->get();
         $news = $query->paginate($perPage);
 
         return view('news.index', [

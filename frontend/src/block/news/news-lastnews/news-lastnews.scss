@@ -35,8 +35,9 @@ $block-name: "b-news-lastnews";
 		line-height: 1.6em;
 	}
 
-	& .swiper {
+	&.swiper {
 		overflow: hidden;
+		margin: 0;
 	}
 
 	&.swiper-slide {
