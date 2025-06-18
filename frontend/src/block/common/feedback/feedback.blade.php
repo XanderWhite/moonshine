@@ -4,11 +4,21 @@
     @endif
 
     @if (session()->has('errors'))
-        <ul class="{{ $block->elem('errors')}}">
+        <ul class="{{ $block->elem('errors') }}">
             @foreach (session('errors')->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
 
     <form class="{{ $block->elem('form') }}" method='POST' action='{{ route('feedback.submit') }}'
@@ -22,7 +32,9 @@
                 value="{{ old('name') }}">
 
         </div>
-
+        {{-- @error('email')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror --}}
         <div class="{{ $block->elem('group') }}">
             <label for="email">Email</label>
             <input type="email" class="{{ $block->elem('input') }} " id="email" name="email"
