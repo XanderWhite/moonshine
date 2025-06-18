@@ -26,7 +26,7 @@ class FeedbackController
 
         ]);
 
-            //$request->validated();
+            // $validated = $request->validated();
 
         $data = $request->only(['name', 'email', 'message']);
 
