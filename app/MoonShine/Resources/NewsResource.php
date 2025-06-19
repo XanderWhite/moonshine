@@ -20,146 +20,106 @@ use MoonShine\UI\Fields\Textarea;
 use MoonShine\Decorations\Block;
 use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\UI\Fields\Preview;
+use MoonShine\UI\Fields\Switcher;
 
 /**
  * @extends ModelResource<News>
  */
 class NewsResource extends ModelResource
 {
-	protected string $model = News::class;
+    protected string $model = News::class;
 
-	protected string $title = 'Новости';
+    protected string $title = 'Новости';
 
-	protected string $column = 'title';
+    protected string $column = 'title';
 
+    protected bool $createInModal = true;
 
-	protected bool $createInModal = true;
+    protected bool $detailInModal = true;
 
-	protected bool $detailInModal = true;
+    protected bool $editInModal = true;
 
-	protected bool $editInModal = true;
+    public function getTitle(): string
+    {
+        return __($this->title);
+    }
 
+    /**
+     * @return list<FieldContract>
+     */
+    protected function indexFields(): iterable
+    {
+        return [ID::make()->sortable(), Text::make(__('Название'), 'title')->sortable(), Date::make(__('Дата'), 'date')->format('d.m.Y')->sortable(), Image::make(__('Картинка'), 'image'), Preview::make('Теги', 'tags', fn($item) => $item->tags->pluck('name')->join(', ')), Text::make('показать новость', 'published_status')->sortable('is_published')];
+    }
 
-	public function getTitle(): string
-	{
-		return __($this->title);
-	}
+    /**
+     * @return list<ComponentContract|FieldContract>
+     */
+    protected function formFields(): iterable
+    {
+        return [
+            ID::make()->sortable(),
 
+            Text::make('Заголовок', 'title')->required(),
 
-	/**
-	 * @return list<FieldContract>
-	 */
-	protected function indexFields(): iterable
-	{
-		return [
-			ID::make()->sortable(),
-			Text::make(__('Название'), 'title')->sortable(),
-			Date::make(__('Дата'), 'date')->format('d.m.Y')->sortable(),
-			Image::make(__('Картинка'), 'image'),
-			Preview::make(
-				'Теги',
-				'tags',
-				fn($item) => $item->tags->pluck('name')->join(', ')
-			)
-		];
-	}
+            Date::make('Дата', 'date')->format('d.m.Y')->required(),
 
-	/**
-	 * @return list<ComponentContract|FieldContract>
-	 */
-	protected function formFields(): iterable
-	{
-		return [
-			ID::make()
-				->sortable(),
+            Textarea::make('Анонс', 'announce'),
 
-			Text::make('Заголовок', 'title')
-				->required(),
+            Textarea::make('Содержание', 'content')->required(),
 
+            Image::make('Изображение', 'image')
+                ->dir('news')
+                ->disk('public')
+                ->allowedExtensions(['jpg', 'png', 'jpeg', 'webp'])
+                ->removable(),
 
-			Date::make('Дата', 'date')
-				->format('d.m.Y')
-				->required(),
+            BelongsToMany::make('Теги', 'tags', resource: TagResource::class)->placeholder('выберите тег')->selectMode()->inLine(),
 
-			Textarea::make('Анонс', 'announce'),
+            Switcher::make('Показывать', 'is_published')->default(true)->updateOnPreview()->hint('Отображать новость на сайте'),
+        ];
+    }
 
-			Textarea::make('Содержание', 'content')
-				->required(),
+    /**
+     * @return list<FieldContract>
+     */
+    protected function detailFields(): iterable
+    {
+        return [];
+    }
 
-			Image::make('Изображение', 'image')
-				->dir('news')
-				->disk('public')
-				->allowedExtensions(['jpg', 'png', 'jpeg', 'webp'])
-				->removable(),
+    /**
+     * @param News $item
+     *
+     * @return array<string, string[]|string>
+     * @see https://laravel.com/docs/validation#available-validation-rules
+     */
+    protected function rules(mixed $item): array
+    {
+        return [
+            'title' => 'required|string|max:255',
+            'date' => 'required|date',
+            'announce' => 'required|string',
+            'content' => 'required|string',
+            'image' => [$item->exists && !request()->hasFile('image') && !$this->isImageRemoved() ? 'nullable' : 'required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+        ];
+    }
 
-			BelongsToMany::make('Теги', 'tags', resource: TagResource::class)
-				->placeholder('выберите тег')
-				->selectMode()
-				->inLine()
-		];
-	}
+    protected function isImageRemoved(): bool
+    {
+        $hiddenImage = request()->input('hidden_image');
+        $imageRemoved = empty($hiddenImage) && !request()->hasFile('image');
 
-	/**
-	 * @return list<FieldContract>
-	 */
-	protected function detailFields(): iterable
-	{
-		return [
-			ID::make(),
-			Text::make('Заголовок', 'title'),
-			Image::make('Изображение', 'image')
-				->dir('news')
-				->disk('public'),
-			Date::make('Дата', 'date')->format('d.m.Y'),
-			Textarea::make('Анонс', 'announce'),
-			Textarea::make('Содержание', 'content'),
-			Preview::make(
-				'Теги',
-				'tags',
-				fn($item) => $item->tags->pluck('name')->join(', ')
-			)
-		];
-	}
+        return $imageRemoved;
+    }
 
-	/**
-	 * @param News $item
-	 *
-	 * @return array<string, string[]|string>
-	 * @see https://laravel.com/docs/validation#available-validation-rules
-	 */
-	protected function rules(mixed $item): array
-	{
-		return [
-			'title' => 'required|string|max:255',
-			'date' => 'required|date',
-			'announce' => 'required|string',
-			'content' => 'required|string',
-			'image' => [
-				($item->exists && !request()->hasFile('image') && !$this->isImageRemoved())
-					? 'nullable'
-					: 'required',
-				'image',
-				'mimes:jpg,jpeg,png,webp',
-				'max:2048'
-			]
-		];
-	}
-
-	protected function isImageRemoved(): bool
-	{
-		$hiddenImage = request()->input('hidden_image');
-		$imageRemoved = empty($hiddenImage) && !request()->hasFile('image');
-
-		return $imageRemoved;
-	}
-
-	public function validationMessages(): array
-	{
-		return [
-			'image.required' => 'Пожалуйста, выберите изображение для новости',
-			'image.image' => 'Загружаемый файл должен быть изображением',
-			'image.mimes' => 'Допустимые форматы изображений: jpg, jpeg, png, webp',
-			'image.max' => 'Максимальный размер изображения — 2 МБ',
-		];
-	}
+    public function validationMessages(): array
+    {
+        return [
+            'image.required' => 'Пожалуйста, выберите изображение для новости',
+            'image.image' => 'Загружаемый файл должен быть изображением',
+            'image.mimes' => 'Допустимые форматы изображений: jpg, jpeg, png, webp',
+            'image.max' => 'Максимальный размер изображения — 2 МБ',
+        ];
+    }
 }

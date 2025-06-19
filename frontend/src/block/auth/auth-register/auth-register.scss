@@ -1,0 +1,50 @@
+@use "style" as *;
+
+$block-name: "b-auth-register";
+
+.#{$block-name} {
+	&__form {
+		display: flex;
+		flex-direction: column;
+		max-width: 500px;
+		width: 100%;
+		padding: 20px;
+		gap: 30px;
+		font-size: 18px;
+	}
+
+	&__group {
+		display: grid;
+		grid-template-columns: minmax(10px, 100px) 1fr;
+		gap: 10px;
+	}
+
+	&__input {
+		padding: 10px;
+	}
+
+	&__button {
+		padding: 10px 20px;
+		border-radius: 20px;
+		align-self: center;
+		color: #fff;
+		background-color: $color-accent;
+		border: 2px solid $color-accent;
+		transition: 0.3s;
+
+		&:hover,
+		&:focus {
+			background-color: #fff;
+			color: $color-accent;
+		}
+	}
+
+	&__file-info {
+		grid-column: span 2;
+	}
+
+	&__errors {
+		color: red;
+		list-style: none;
+	}
+}

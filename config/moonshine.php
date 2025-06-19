@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckAdminRole;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -52,6 +53,7 @@ return [
         VerifyCsrfToken::class,
         SubstituteBindings::class,
         ChangeLocale::class,
+        CheckAdminRole::class
     ],
 
     // Storage

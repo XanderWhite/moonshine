@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\News;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NewsController
 {
@@ -13,7 +14,9 @@ class NewsController
         $perPage = 2;
         $lastNewsCount = 3;
 
-        $query = News::with('tags')->orderedNews();
+        $query = News::with('tags')->orderedNews()->when(!Auth::check(), function($q) {
+                return $q->where('is_published', true);
+            });
 
         if ($url) {
             $tag = Tag::where('slug', $url)->firstOrFail();
@@ -37,3 +40,4 @@ class NewsController
         return view('news.show', ['news' => $news]);
     }
 }
+

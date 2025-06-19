@@ -22,6 +22,7 @@
             'common/header',
             [
                 'text' => 'Галактический вестник',
+                'user' => auth()->user(),
             ]
         ); ?>
         <main class="main">

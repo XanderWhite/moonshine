@@ -18,7 +18,22 @@
                 {!! $text !!}
             </span>
         </a>
+        @auth
+            <div class="{{ $block->elem('user') }}">
+                <span>
+                    {{ auth()->user()->name }}
+
+                </span>
+               <form action="{{ route('logout') }}" method="POST" >
+            @csrf
+            <button class="{{ $block->elem('button-logout') }}" type="submit" >Покинуть</button>
+        </form>
+            </div>
+        @endauth
 
         <a href="{{ route('feedback.show') }}" class="{{ $block->elem('link') }}"> Связь с космосом</a>
+        <a href="{{ route('login') }}" class="{{ $block->elem('link') }}"> На взлет</a>
+
+        <a href="{{ route('register') }}" class="{{ $block->elem('link') }}">Посадка</a>
     </div>
 </header>

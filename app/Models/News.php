@@ -13,7 +13,8 @@ class News extends Model
         'announce',
         'content',
         'image',
-        'date'
+        'date',
+        'is_published' => 'boolean'
     ];
 
     public function scopeOrderedNews(Builder $query): Builder
@@ -35,4 +36,9 @@ class News extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    public function getPublishedStatusAttribute(): string
+{
+    return $this->is_published ? 'Да' : 'Нет';
+}
 }
