@@ -3,7 +3,7 @@
         <p class="{{ $block->elem('success') }}">{{ session('success') }}</p>
     @endif
 
-    @if (session()->has('errors'))
+    {{-- @if (session()->has('errors'))
         <ul class="{{ $block->elem('errors') }}">
             @foreach (session('errors')->all() as $error)
                 <li>{{ $error }}</li>
@@ -19,35 +19,41 @@
                 @endforeach
             </ul>
         </div>
-    @endif
+    @endif --}}
 
     <form class="{{ $block->elem('form') }}" method='POST' action='{{ route('feedback.submit') }}'
         enctype="multipart/form-data">
 
         @csrf
-
+        @error('name')
+            <div class="{{ $block->elem('errors') }}">{{ $message }}</div>
+        @enderror
         <div class="{{ $block->elem('group') }}">
             <label for="name">Ваше имя</label>
             <input type="text" class="{{ $block->elem('input') }} " id="name" name="name"
                 value="{{ old('name') }}">
 
         </div>
-        {{-- @error('email')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror --}}
+        @error('email')
+            <div class="{{ $block->elem('errors') }}">{{ $message }}</div>
+        @enderror
         <div class="{{ $block->elem('group') }}">
             <label for="email">Email</label>
             <input type="email" class="{{ $block->elem('input') }} " id="email" name="email"
                 value="{{ old('email') }}">
 
         </div>
-
+        @error('message')
+            <div class="{{ $block->elem('errors') }}">{{ $message }}</div>
+        @enderror
         <div class="{{ $block->elem('group') }}">
             <label for="message">Сообщение</label>
             <textarea class="{{ $block->elem('input') }} " id="message" name="message" rows="5">{{ old('message') }}</textarea>
 
         </div>
-
+        @error('attachments')
+            <div class="{{ $block->elem('errors') }}">{{ $message }}</div>
+        @enderror
         <div class="{{ $block->elem('group') }}">
             <label for="attachment">Прикрепить файл </label>
             <input type="file" class="{{ $block->elem('input') }}" id="attachment" name="attachments[]" multiple>

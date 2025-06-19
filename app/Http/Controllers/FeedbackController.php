@@ -14,19 +14,9 @@ class FeedbackController
         return view('pages.feedback');
     }
 
-    public function submit(Request $request)
+    public function submit(FeedbackRequest $request)
     {
-        $validated = $request->validate([
-     'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'message' => 'required|string|min:10',
-            'attachments' => 'nullable|array',
-            'attachments.*' => 'file|max:5120|mimes:pdf,jpg,png,doc,docx',
-
-
-        ]);
-
-            // $validated = $request->validated();
+        $validated = $request->validated();
 
         $data = $request->only(['name', 'email', 'message']);
 
@@ -35,7 +25,7 @@ class FeedbackController
         if ($request->hasFile('attachments')) {
             foreach ($request->file('attachments') as $file) {
                 if ($file->isValid()) {
-                  $attachments[] = [
+                    $attachments[] = [
                         'path' => $file->store('feedback_attachments'),
                         'original_name' => $file->getClientOriginalName(),
                         'mime_type' => $file->getMimeType(),

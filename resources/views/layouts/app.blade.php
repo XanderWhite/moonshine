@@ -21,7 +21,7 @@
         echo app('tao.frontend')->templates()->renderBlock(
             'common/header',
             [
-                'text' => 'Галактический вестник'
+                'text' => 'Галактический вестник',
             ]
         ); ?>
         <main class="main">

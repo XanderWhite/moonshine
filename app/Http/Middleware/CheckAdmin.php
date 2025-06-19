@@ -2,12 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Controllers\FeedbackController;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckNewsTime
+class CheckAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,9 +15,6 @@ class CheckNewsTime
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $secretToken = env('MY_SECRET_TOKEN');
-        info('Some helpful information!', ['token' => $secretToken]);
-        logger('Debug message');
         return $next($request);
     }
 }

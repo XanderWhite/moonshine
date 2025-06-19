@@ -9,3 +9,8 @@ Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
 
 Route::get('/feedback', [FeedbackController::class, 'show'])->name('feedback.show');
 Route::post('/feedback', [FeedbackController::class, 'submit'])->name('feedback.submit');
+
+
+Route::get('/test', function() {
+	return view('test');
+});

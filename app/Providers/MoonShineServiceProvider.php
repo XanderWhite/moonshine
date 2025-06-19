@@ -38,7 +38,7 @@ class MoonShineServiceProvider extends ServiceProvider
             ->logo('/assets/images/logo.png')
             ->logo('/assets/images/logo.png', small: true);
 
-            
+
         // $colors
         //     ->primary('#2563EB')
         //     ->secondary('#93C5FD');
