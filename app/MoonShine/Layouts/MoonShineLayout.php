@@ -33,6 +33,7 @@ use MoonShine\UI\Components\{Breadcrumbs,
 use App\MoonShine\Resources\NewsResource;
 use MoonShine\MenuManager\MenuItem;
 use App\MoonShine\Resources\TagResource;
+use App\MoonShine\Resources\AboutBlockResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -49,6 +50,7 @@ final class MoonShineLayout extends AppLayout
             ...parent::menu(),
             MenuItem::make('News', NewsResource::class),
             MenuItem::make('Tags', TagResource::class),
+            MenuItem::make('AboutBlocks', AboutBlockResource::class),
         ];
     }
 

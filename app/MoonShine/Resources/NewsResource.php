@@ -129,10 +129,7 @@ class NewsResource extends ModelResource
 			'announce' => 'required|string',
 			'content' => 'required|string',
 			'image' => [
-				($item->exists && !request()->hasFile('image') && !$this->isImageRemoved())
-					? 'nullable'
-					: 'required',
-				'image',
+						'image',
 				'mimes:jpg,jpeg,png,webp',
 				'max:2048'
 			]
@@ -150,7 +147,6 @@ class NewsResource extends ModelResource
 	public function validationMessages(): array
 	{
 		return [
-			'image.required' => 'Пожалуйста, выберите изображение для новости',
 			'image.image' => 'Загружаемый файл должен быть изображением',
 			'image.mimes' => 'Допустимые форматы изображений: jpg, jpeg, png, webp',
 			'image.max' => 'Максимальный размер изображения — 2 МБ',
